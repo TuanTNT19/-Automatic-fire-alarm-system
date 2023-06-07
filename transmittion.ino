@@ -2,8 +2,8 @@
 #include <PubSubClient.h>
 
 String data;
-const char* ssid = "Oppo A12";
-const char* password = "oppo A12";
+const char* ssid = "Oppo A12"; // your device 
+const char* password = "oppo A12"; // your password
 
 #define TOKEN "Messi87" //Access token of device Display
 char ThingsboardHost[] = "thingsboard.cloud";
