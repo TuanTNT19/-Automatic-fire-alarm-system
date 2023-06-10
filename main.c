@@ -64,6 +64,7 @@ static void MX_ADC1_Init(void);
 /* USER CODE BEGIN 0 */
 int count=0;
 uint16_t data[2];
+uint16_t temp;
 //gtbt = ADCRead(&hadc1);
 //uint32_t ADCRead(ADC_HandleTypeDef *adc)
 //{
@@ -108,7 +109,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_ADC1_Init();
   /* USER CODE BEGIN 2 */
-HAL_ADC_Start_DMA(&hadc1,(uint32_t *)data,2);
+//HAL_ADC_Start_DMA(&hadc1,(uint32_t *)data,2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,13 +124,22 @@ HAL_ADC_Start_DMA(&hadc1,(uint32_t *)data,2);
 		HAL_ADC_Start_DMA(&hadc1,(uint32_t *)data,2);
 		HAL_Delay(10);
 		HAL_ADC_Stop_DMA(&hadc1);
+		temp= (870-data[1])*0.08;
+		if (data[0]<2000) 
+		{
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14,1);
+		}
+		else if (data[0]>=2000)
+		{
+			HAL_GPIO_WritePin(GPIOC, GPIO_PIN_14,0);
+		}
 		char str2[50];
 		char str1[50];
 	//	char *check= "k";
-		int len1=sprintf(str2,"%04d",data[1]);
+		int len1=sprintf(str2,"%04d",temp);
 		int len2=sprintf(str1,"%04d",data[0]);
-		HAL_UART_Transmit(&huart1,(uint8_t *)str2,len1,300);
-		HAL_UART_Transmit(&huart1,(uint8_t *)str1,len2,300);
+		HAL_UART_Transmit(&huart1,(uint8_t *)str1,len1,300);
+		HAL_UART_Transmit(&huart1,(uint8_t *)str2,len2,300);
 		//int len2=sprintf(str2,"%04d",data[1]);
 //			char buff[50];
 //		int len=sprintf(buff, "%d , Hello ",count++);
