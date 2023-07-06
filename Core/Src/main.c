@@ -189,50 +189,61 @@ HAL_TIM_Base_Start(&htim1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-////		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_3);
-////		HAL_Delay(2000);
-		    		char str1[50];
-    			// gtbt = ADCRead(&hadc1);
-		 gtbt = 3459;
-     			int len1=sprintf(str1,"%04d",gtbt);
+//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_3);
+//		HAL_Delay(2000);
+		
+//				    		char str1[50];
+//    			gtbt = ADCRead(&hadc1);
 //		 
-  		 	HAL_UART_Transmit(&huart1,(uint8_t *)str1,len1,300);
-//	  	//HAL_UART_Transmit(&huart1,(uint8_t *)str2,len2,300);
-   		  HAL_Delay(1000);
-//				 if(DHT22_Start())
-//	     {
-//	       hum1 = DHT22_Read(); 
-//	       hum2 = DHT22_Read();
-//	       tempC1 = DHT22_Read(); 
-//	       tempC2 = DHT22_Read(); 
-//	       SUM = DHT22_Read(); 
-//	       CHECK = hum1 + hum2 + tempC1 + tempC2;
-//	       if (CHECK == SUM)
-//	       {
-//	         if (tempC1>127) 
-//	         {
-//	           temp_Celsius = (float)tempC2/10*(-1);
-//	         }
-//	         else
-//	         {
-//	           temp_Celsius = (float)((tempC1<<8)|tempC2)/10;
-//	         }
-//	         
-//	         temp_Fahrenheit = temp_Celsius * 9/5 + 32;
-//	         
-//	         Humidity = (float) ((hum1<<8)|hum2)/10;
-//				 }
-//			 }
-//			 char str2[50];
-//    		char str1[50];
-//			 gtbt = ADCRead(&hadc1);
-//			int len2=sprintf(str2,"%04d", temp_Celsius);
-//		  int len1=sprintf(str1,"%04d",gtbt);
-//		 	HAL_UART_Transmit(&huart1,(uint8_t *)str1,len1,300);
-//	  	HAL_UART_Transmit(&huart1,(uint8_t *)str2,len2,300);
-//		  HAL_Delay(1000);
-//		 }
+//     			int len1=sprintf(str1,"%04d",gtbt);
+////		 
+//  		 	HAL_UART_Transmit(&huart1,(uint8_t *)str1,len1,300);
+////	  	//HAL_UART_Transmit(&huart1,(uint8_t *)str2,len2,300);
+//   		  HAL_Delay(1000);
+		
+						 if(DHT22_Start())
+	     {
+	       hum1 = DHT22_Read(); 
+	       hum2 = DHT22_Read();
+	       tempC1 = DHT22_Read(); 
+	       tempC2 = DHT22_Read(); 
+	       SUM = DHT22_Read(); 
+	       CHECK = hum1 + hum2 + tempC1 + tempC2;
+	       if (CHECK == SUM)
+	       {
+	         if (tempC1>127) 
+	         {
+	           temp_Celsius = (float)tempC2/10*(-1);
+	         }
+	         else
+	         {
+	           temp_Celsius = (float)((tempC1<<8)|tempC2)/10;
+	         }
+	         
+	         temp_Fahrenheit = temp_Celsius * 9/5 + 32;
+	         
+	         Humidity = (float) ((hum1<<8)|hum2)/10;
+				 }
+			 }
+			 char str2[50];
+   		char str1[50];
+			 gtbt = ADCRead(&hadc1);
+			int len2=sprintf(str2,"%04d", temp_Celsius);
+		  int len1=sprintf(str1,"%04d",gtbt);
+		 	HAL_UART_Transmit(&huart1,(uint8_t *)str1,len1,300);
+	  	HAL_UART_Transmit(&huart1,(uint8_t *)str2,len2,300);
+			 if (gtbt<=3001)
+			 {
+				 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0,1);
+			 }
+			 else if (gtbt >3001)
+				 
+			 {
+				 HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0,0);
+			 }
+		  HAL_Delay(1000);
   }
+	
   /* USER CODE END 3 */
 }
 
@@ -263,7 +274,7 @@ void SystemClock_Config(void)
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
-  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV2;
+  RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
   RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV1;
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
@@ -271,7 +282,7 @@ void SystemClock_Config(void)
     Error_Handler();
   }
   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
-  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV8;
+  PeriphClkInit.AdcClockSelection = RCC_ADCPCLK2_DIV2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
     Error_Handler();
@@ -413,9 +424,13 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, GPIO_PIN_1|GPIO_PIN_3, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PA1 PA3 */
   GPIO_InitStruct.Pin = GPIO_PIN_1|GPIO_PIN_3;
@@ -423,6 +438,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : PB0 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
 }
 
