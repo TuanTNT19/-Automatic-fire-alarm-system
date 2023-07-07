@@ -1,0 +1,26 @@
+--cpu Cortex-M3
+"da1_hust\startup_stm32f103xb.o"
+"da1_hust\main.o"
+"da1_hust\stm32f1xx_it.o"
+"da1_hust\stm32f1xx_hal_msp.o"
+"da1_hust\stm32f1xx_hal_gpio_ex.o"
+"da1_hust\stm32f1xx_hal_adc.o"
+"da1_hust\stm32f1xx_hal_adc_ex.o"
+"da1_hust\stm32f1xx_hal.o"
+"da1_hust\stm32f1xx_hal_rcc.o"
+"da1_hust\stm32f1xx_hal_rcc_ex.o"
+"da1_hust\stm32f1xx_hal_gpio.o"
+"da1_hust\stm32f1xx_hal_dma.o"
+"da1_hust\stm32f1xx_hal_cortex.o"
+"da1_hust\stm32f1xx_hal_pwr.o"
+"da1_hust\stm32f1xx_hal_flash.o"
+"da1_hust\stm32f1xx_hal_flash_ex.o"
+"da1_hust\stm32f1xx_hal_exti.o"
+"da1_hust\stm32f1xx_hal_tim.o"
+"da1_hust\stm32f1xx_hal_tim_ex.o"
+"da1_hust\stm32f1xx_hal_uart.o"
+"da1_hust\system_stm32f1xx.o"
+--library_type=microlib --strict --scatter "DA1_HUST\DA1_HUST.sct"
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
+--info sizes --info totals --info unused --info veneers
+--list "DA1_HUST.map" -o DA1_HUST\DA1_HUST.axf
