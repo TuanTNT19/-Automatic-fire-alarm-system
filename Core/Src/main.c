@@ -179,7 +179,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-HAL_TIM_Base_Start(&htim1);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -189,19 +189,8 @@ HAL_TIM_Base_Start(&htim1);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//		HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_3);
-//		HAL_Delay(2000);
-		
-//				    		char str1[50];
-//    			gtbt = ADCRead(&hadc1);
-//		 
-//     			int len1=sprintf(str1,"%04d",gtbt);
-////		 
-//  		 	HAL_UART_Transmit(&huart1,(uint8_t *)str1,len1,300);
-////	  	//HAL_UART_Transmit(&huart1,(uint8_t *)str2,len2,300);
-//   		  HAL_Delay(1000);
-		
-						 if(DHT22_Start())
+		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_3,1);
+	 if(DHT22_Start())
 	     {
 	       hum1 = DHT22_Read(); 
 	       hum2 = DHT22_Read();
@@ -243,7 +232,6 @@ HAL_TIM_Base_Start(&htim1);
 			 }
 		  HAL_Delay(1000);
   }
-	
   /* USER CODE END 3 */
 }
 
