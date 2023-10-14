@@ -208,10 +208,7 @@ int main(void)
 	         {
 	           temp_Celsius = (float)((tempC1<<8)|tempC2)/10;
 	         }
-	         
-	         temp_Fahrenheit = temp_Celsius * 9/5 + 32;
-	         
-	         Humidity = (float) ((hum1<<8)|hum2)/10;
+	    
 				 }
 			 }
 			 char str2[50];
